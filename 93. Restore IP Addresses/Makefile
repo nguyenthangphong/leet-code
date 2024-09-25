@@ -16,3 +16,4 @@ run: $(TARGET)
 
 clean:
 	rm -rf $(TARGET)
+	rm -rf $(TARGET).exe
