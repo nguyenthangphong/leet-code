@@ -13,12 +13,13 @@ char **restore_Ip_Addresses(char *s, int *returnSize);
 
 int main(void)
 {
-    char input[12] = "256";
+    char input[MAX_LENGTH] = "25525611135";
+
     int length = strlen(input);
 
     if (check_Valid_String(input, length))
     {
-        cut_String(input, MAX_PADDING);
+        cut_String(input, length);
     }
     
     return 0;
@@ -44,6 +45,8 @@ void cut_String(char *s, int length)
     // int size = length + 3;
     // char result[size];
 
+    printf("length = %d\n", length);
+
     for (int i = 0; i < length; i += MAX_PADDING)
     {
         char temp1[1];
@@ -57,9 +60,9 @@ void cut_String(char *s, int length)
         strncpy(temp3, s + i, MAX_PADDING);
         temp3[MAX_PADDING] = '\0';
         number3 = atoi(temp3);
-        printf("number = %d\n", number3);
+        printf("number3 = %d\n", number3);
         
-        if (number3 > MAX_VALUE)
+        if (number3 <= MAX_VALUE)
         {
             for (int j = 0; j < 2; j++)
             {
