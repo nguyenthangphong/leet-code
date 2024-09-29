@@ -2,67 +2,122 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
-bool check_special_character(char c);
-char *remove_special_characters(const char *source);
-void convert_to_low_characters(char *s);
-bool is_palindrome(char *s);
+int remove_special_characters(const char *source, char *target);
+void convert_to_low_characters(const char *source, char *target);
+void remove_space_string(const char *source, char *target);
+bool is_palindrome(const char *source);
 
-int main(void)
+int remove_special_characters(const char *source, char *target)
 {
-    char input[] = "A man, a plan, a canal: Panama";
-    char output[31];
+    int length = strlen(source);
+    int count = 0;
 
-
-    for (int i = 0; i < strlen(input); i++)
+    for (int i = 0; i < length; i++)
     {
-        printf("Checking %c ...\n", input[i]);
-
-        if (check_special_character(input[i]))
+        if (isalnum(source[i]))
         {
-            printf("%c ", input[i]);
+            target[count] = source[i];
+            count++;
         }
     }
 
-    return 0;
+    target[length] = '\0';
+
+    return count;
 }
 
-bool check_special_character(char c)
+void convert_to_low_characters(const char *source, char *target)
 {
-    char alphabets[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    int length = remove_special_characters(source, target);
 
-    for (int i = 0; i < strlen(alphabets); i++)
+    for (int i = 0; i < length; i++)
     {
-        printf("alphabets =  %c\n", alphabets[i]);
+        target[i] = tolower(target[i]);
+    }
 
-        if (c != alphabets[i])
+    target[length] = '\0';
+}
+
+void remove_space_string(const char *source, char *target)
+{
+    int position = 0;
+    int length = strlen(source);
+
+    for(int i = 0; i < length; i++)
+    {
+        if (isspace(source[i]))
+        {
+            continue;
+        }
+
+        target[position++] = source[i];
+    }
+
+    target[position] = '\0';
+}
+
+bool is_palindrome(const char *source)
+{
+    int length = strlen(source);
+
+    char target[length + 1];
+
+    convert_to_low_characters(source, target);
+
+    char newTarget[length + 1];
+
+    remove_space_string(target, newTarget);
+
+    int i = 0, j = strlen(newTarget) - 1;
+
+    while (i <= j)
+    {
+        if (newTarget[i] != newTarget[j])
         {
             return false;
         }
+
+        i++;
+        j--;
     }
 
     return true;
 }
 
-char *remove_special_characters(const char *source)
+int main(void)
 {
-    
-    char *target;
+    char input1[] = "A man, a plan, a canal: Panama";
+    char input2[] = "race a car";
+    char input3[] = " ";
 
-
-}
-
-void convert_to_low_characters(char *s)
-{
-    int length = strlen(s);
-
-    for (int i = 0; i < length; i++)
+    if (is_palindrome(input1))
     {
-
+        printf("true\n");
     }
-}
+    else
+    {
+        printf("false\n");
+    }
 
-bool is_palindrome(char *s)
-{
-    
+    if (is_palindrome(input2))
+    {
+        printf("true\n");
+    }
+    else
+    {
+        printf("false\n");
+    }
+
+    if (is_palindrome(input3))
+    {
+        printf("true\n");
+    }
+    else
+    {
+        printf("false\n");
+    }
+
+    return 0;
 }
