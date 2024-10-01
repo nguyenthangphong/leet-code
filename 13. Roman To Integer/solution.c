@@ -1,87 +1,56 @@
 #include <stdio.h>
 #include <string.h>
 
+int convert_roman_to_number(char c);
 int roman_to_integer(char *s);
+
+int convert_roman_to_number(char c)
+{
+    int result = 0;
+
+    switch (c)
+    {
+        case 'M':
+            result = 1000;
+            break;
+        case 'D':
+            result = 500;
+            break;
+        case 'C':
+            result = 100;
+            break;
+        case 'L':
+            result = 50;
+            break;
+        case 'X':
+            result = 10;
+            break;
+        case 'V':
+            result = 5;
+            break;
+        case 'I':
+            result = 1;
+            break;
+        default:
+            break;
+    }
+
+    return result;
+}
 
 int roman_to_integer(char *s)
 {
     int result = 0;
-    int length = strlen(s);
 
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < strlen(s); i++)
     {
-        if (s[i] == 'M')
+        if (convert_roman_to_number(s[i]) < convert_roman_to_number(s[i + 1]))
         {
-            result += 1000;
-        }
-        else if (s[i] == 'D')
-        {
-            if ( i < length - 1 && s[i + 1] == 'M')
-            {
-                result += 900;
-            }
-            else
-            {
-                result += 500;
-            }
-        }
-        else if (s[i] == 'C')
-        {
-            if (i < length - 1 && s[i + 1] == 'D')
-            {
-                result += 400;
-            }
-            else
-            {
-                result += 100;
-            }
-        }
-        else if (s[i] == 'L')
-        {
-            if (i < length - 1 && s[i + 1] == 'C')
-            {
-                result += 90;
-            }
-            else
-            {
-                result += 50;
-            }
-        }
-        else if (s[i] == 'X')
-        {
-            if (i < length - 1 && s[i + 1] == 'L')
-            {
-                result += 40;
-            }
-            else
-            {
-                result += 10;
-            }
+            result = result - convert_roman_to_number(s[i]);
         }
         else
         {
-            if (s[i] == 'I')
-            {
-                if (i < length - 1)
-                {
-                    if (s[i + 1] == 'V')
-                    {
-                        result += 4;
-                    }
-                    else if (s[i + 1] == 'X')
-                    {
-                        result += 9;
-                    }
-                    else
-                    {
-                        result += 1;
-                    }
-                }
-            }
-            else if (s[i] == 'V')
-            {
-                result += 5;
-            }
+            result = result + convert_roman_to_number(s[i]);
         }
     }
 
@@ -90,9 +59,9 @@ int roman_to_integer(char *s)
 
 int main(void)
 {
-    printf("Output: %d\n", roman_to_integer("IV"));
-    // printf("%d\n", roman_to_integer("LVIII"));
-    // printf("%d\n", roman_to_integer("MCMXCIV"));
+    printf("Output: %d\n", roman_to_integer("III"));
+    printf("Output: %d\n", roman_to_integer("LVIII"));
+    printf("Output: %d\n", roman_to_integer("MCMXCIV"));
 
     return 0;
 }
