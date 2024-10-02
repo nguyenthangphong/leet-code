@@ -1,4 +1,4 @@
-TARGET = roman_to_integer
+TARGET = integer_to_roman
 
 SRC = solution.c
 
