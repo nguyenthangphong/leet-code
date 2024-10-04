@@ -1,59 +1,49 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
-#include <stdlib.h>
 
-int check_is_exists_array(char *haystack);
 int strStr(char *haystack, char *needle);
 
 int strStr(char *haystack, char *needle)
 {
-    int position = 0;
-    int length1 = strlen(haystack);
-    int length2 = strlen(needle);
-    int *data = (int *)malloc((length2 + 1) * sizeof(int));
-
-    printf("length2 = %d\n", length2);
-
+    int count = 0;
     int result = 0;
+    int length_haystack = strlen(haystack);
+    int length_needle = strlen(needle);
 
-    for (int i = 0; i < length1; i++)
+    for (int i = 0; i < length_haystack; i++)
     {
-        for (int j = 0; j < length2; j++)
+        result = i;
+
+        for (int j = 0; j < length_needle; j++)
         {
             if (haystack[i] == needle[j])
             {
-                printf("haystack[%d] = %c\n", i, haystack[i]);
-                
-                if (position < length2)
-                {
-                    data[position] = i;
-                    printf("data[%d] = %d\n", position, data[position]);
-                    position++;
-                }
+                count++;
+                i++;
+            }
+            else
+            {
+                count = 0;
             }
         }
+
+        if (count == length_needle)
+        {
+            return result;
+        }
+
+        count = 0;
+        i = result;
     }
 
-    printf("position = %d\n", position);
-
-    if (position == length2 - 1)
-    {
-        return -1;
-    }
-
-    result = data[0];
-
-    free(data);
-
-    return result;
+    return -1;
 }
 
 int main(void)
 {
-    // printf("Output: %d\n", strStr("butsad", "sad"));
+    printf("Output: %d\n", strStr("butsad", "sad"));
     printf("Output: %d\n", strStr("leetcode", "leeto"));
-    // printf("Output: %d\n", strStr("hello", "ll"));
+    printf("Output: %d\n", strStr("hello", "ll"));
 
     return 0;
 }
